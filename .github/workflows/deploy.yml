@@ -10,6 +10,12 @@ jobs:
     name: Build & Release
     runs-on: ubuntu-latest
 
+    env:
+      WIX_CLIENT_ID: ${{ secrets.WIX_CLIENT_ID }}
+      WIX_CLIENT_INSTANCE_ID: ${{ secrets.WIX_CLIENT_INSTANCE_ID }}
+      WIX_CLIENT_SECRET: ${{ secrets.WIX_CLIENT_SECRET }}
+      WIX_CLOUD_PROVIDER: KUBERNETES
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
