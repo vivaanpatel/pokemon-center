@@ -1,6 +1,6 @@
 # Wix Astro Blank Template
 
-**[Live demo](https://h6s-1a31f9730cd85b-headlessstack.wix-site-host.com)**
+**[Live demo](https://pokemon-center-vireshcore-0e0a.wix-site-host.com)**
 
 Our Astro templates are still in development and subject to change.
 
