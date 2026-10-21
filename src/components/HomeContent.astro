@@ -1,0 +1,215 @@
+---
+import { cards } from '../data/cards';
+import CardItem from './CardItem.astro';
+
+const featured = cards.filter(c => c.featured);
+const popular = cards.filter(c => c.popular);
+---
+
+<!-- Featured Cards -->
+<section class="section" id="featured-section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">⭐ Hand Picked</div>
+        <h2 class="section-title">Featured Cards</h2>
+        <p class="section-subtitle">Our curated selection of the most sought-after Pokémon cards</p>
+      </div>
+      <a href="/shop?filter=featured" class="btn btn-outline" id="see-all-featured">See All</a>
+    </div>
+    <div class="cards-grid">
+      {featured.map(card => <CardItem card={card} />)}
+    </div>
+  </div>
+</section>
+
+<!-- Banner -->
+<div class="promo-banner">
+  <div class="container">
+    <div class="promo-inner">
+      <div class="promo-text">
+        <div class="promo-tag">🎁 Limited Time</div>
+        <h3>Free Shipping on Orders Over $50</h3>
+        <p>Shop our collection of rare and vintage Pokémon cards with secure, insured shipping.</p>
+      </div>
+      <a href="/shop" class="btn btn-primary" id="promo-shop-btn">Shop Now</a>
+    </div>
+  </div>
+</div>
+
+<!-- Popular Cards -->
+<section class="section" id="popular-section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">🔥 Trending</div>
+        <h2 class="section-title">Popular Cards</h2>
+        <p class="section-subtitle">Cards that collectors and trainers are snapping up fast</p>
+      </div>
+      <a href="/shop?filter=popular" class="btn btn-outline" id="see-all-popular">See All</a>
+    </div>
+    <div class="cards-grid">
+      {popular.map(card => <CardItem card={card} />)}
+    </div>
+  </div>
+</section>
+
+<!-- Why Us section -->
+<section class="why-section" id="why-section">
+  <div class="container">
+    <h2 class="section-title" style="text-align:center; margin-bottom: 12px;">Why Choose PokéCard Market?</h2>
+    <p class="section-subtitle" style="text-align:center; margin-bottom: 48px;">We take every measure to ensure you get authentic cards in the best condition.</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🔍</div>
+        <h4>100% Authenticated</h4>
+        <p>Every card is verified by our team of expert graders before listing.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📦</div>
+        <h4>Secure Packaging</h4>
+        <p>Cards are shipped in protective sleeves and rigid holders to prevent damage.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">↩️</div>
+        <h4>Easy Returns</h4>
+        <p>Not satisfied? Return within 30 days for a full refund, no questions asked.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">💬</div>
+        <h4>Expert Support</h4>
+        <p>Our Pokémon experts are available to help you find the perfect card.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--yellow);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  /* Promo Banner */
+  .promo-banner {
+    background: linear-gradient(135deg, var(--navy-mid), var(--navy-light));
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .promo-banner::before {
+    content: '⚡';
+    position: absolute;
+    font-size: 200px;
+    opacity: 0.03;
+    right: -20px;
+    top: -40px;
+  }
+
+  .promo-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .promo-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,215,0,0.15);
+    border: 1px solid rgba(255,215,0,0.3);
+    color: var(--yellow);
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .promo-text h3 {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .promo-text p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    max-width: 420px;
+    line-height: 1.6;
+  }
+
+  /* Why section */
+  .why-section {
+    padding: 80px 0;
+    background: var(--navy-light);
+    border-top: 1px solid var(--border);
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+  }
+
+  .why-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    transition: all var(--transition);
+    text-align: center;
+  }
+
+  .why-card:hover {
+    border-color: rgba(255,215,0,0.3);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+  }
+
+  .why-icon {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .why-card h4 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .why-card p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 640px) {
+    .section-header { flex-direction: column; align-items: flex-start; }
+    .promo-inner { flex-direction: column; }
+  }
+</style>

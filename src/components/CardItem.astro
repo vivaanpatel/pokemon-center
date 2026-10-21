@@ -1,0 +1,77 @@
+---
+import type { PokemonCard } from '../data/cards';
+import { typeColors, rarityColors } from '../data/cards';
+
+interface Props {
+  card: PokemonCard;
+}
+
+const { card } = Astro.props;
+const typeColor = typeColors[card.type] || '#8892A4';
+const rarityColor = rarityColors[card.rarity] || '#6C757D';
+const discount = card.originalPrice ? Math.round((1 - card.price / card.originalPrice) * 100) : 0;
+---
+
+<a href={`/card/${card.id}`} class="poke-card" id={`card-${card.id}`} data-id={card.id}>
+  <div class="poke-card-img-wrap" style={`background: linear-gradient(135deg, ${typeColor}18, ${typeColor}08)`}>
+    <div class="poke-card-badges">
+      <span class="badge" style={`background: ${rarityColor}22; color: ${rarityColor}; border: 1px solid ${rarityColor}44`}>
+        {card.rarity}
+      </span>
+      {discount > 0 && (
+        <span class="badge" style="background: rgba(255,107,107,0.2); color: #FF6B6B; border: 1px solid rgba(255,107,107,0.3)">
+          -{discount}%
+        </span>
+      )}
+      {card.stock <= 2 && (
+        <span class="badge" style="background: rgba(255,165,0,0.2); color: #FFA500; border: 1px solid rgba(255,165,0,0.3)">
+          Low Stock
+        </span>
+      )}
+    </div>
+    <img
+      class="poke-card-img"
+      src={card.image}
+      alt={`${card.name} Pokémon card`}
+      loading="lazy"
+    />
+    <div class="type-tag" style={`background: ${typeColor}22; color: ${typeColor}; border: 1px solid ${typeColor}44`}>
+      {card.type}
+    </div>
+  </div>
+  <div class="poke-card-body">
+    <div class="poke-card-name">{card.name}</div>
+    <div class="poke-card-meta">{card.set} • {card.number} • {card.condition}</div>
+    <div class="poke-card-footer">
+      <div class="price-wrap">
+        <span class="poke-card-price">${card.price.toFixed(2)}</span>
+        {card.originalPrice && (
+          <span class="poke-card-original-price">${card.originalPrice.toFixed(2)}</span>
+        )}
+      </div>
+      <button
+        class="poke-card-btn"
+        aria-label={`Add ${card.name} to cart`}
+        id={`add-to-cart-${card.id}`}
+        data-card-id={card.id}
+        onclick="event.preventDefault(); addToCart(this.dataset.cardId);"
+      >
+        +
+      </button>
+    </div>
+  </div>
+</a>
+
+<style>
+  .type-tag {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+</style>

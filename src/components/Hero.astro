@@ -1,82 +1,380 @@
+---
+---
+
 <section id="hero">
-	<div id="hero-inner">
-		<h1 id="hero-heading">Keep building with your AI coding agent</h1>
-		<p id="hero-body">
-			Go back to your coding agent and keep prompting. Add pages, content,
-			and design as you go.
-		</p>
-		<a
-			href="https://dev.wix.com/docs/go-headless"
-			target="_blank"
-			rel="noopener noreferrer"
-			id="hero-cta">Learn More About Headless</a
-		>
-	</div>
+  <div class="hero-bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-tag">
+      <span>⚡</span> The #1 Pokémon Card Marketplace
+    </div>
+    <h1 class="hero-title">
+      Catch Your<br />
+      <span class="hero-accent">Rarest Cards</span>
+    </h1>
+    <p class="hero-body">
+      From vintage Base Set holos to modern Secret Rares — discover, collect, and trade Pokémon cards with confidence. Every card is authenticated and shipped securely.
+    </p>
+    <div class="hero-ctas">
+      <a href="/shop" class="btn btn-primary" id="hero-shop-btn">
+        Browse All Cards
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="/shop?filter=featured" class="btn btn-outline" id="hero-featured-btn">
+        View Featured
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">500+</span>
+        <span class="stat-label">Cards Listed</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">10K+</span>
+        <span class="stat-label">Happy Trainers</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Authenticated</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-pokeball">
+      <div class="pokeball-top"></div>
+      <div class="pokeball-middle">
+        <div class="pokeball-center"></div>
+      </div>
+      <div class="pokeball-bottom"></div>
+    </div>
+    <div class="floating-cards">
+      <div class="fc fc-1">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png" alt="Charizard" />
+        <div class="fc-label">Charizard</div>
+        <div class="fc-price">$349.99</div>
+      </div>
+      <div class="fc fc-2">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png" alt="Mewtwo" />
+        <div class="fc-label">Mewtwo</div>
+        <div class="fc-price">$279.99</div>
+      </div>
+      <div class="fc fc-3">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="Pikachu" />
+        <div class="fc-label">Pikachu</div>
+        <div class="fc-price">$12.99</div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <style>
-	#hero {
-		width: 100%;
-		height: 100vh;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 80px 40px;
-		position: relative;
-		overflow: hidden;
-		background: linear-gradient(
-			135deg,
-			#dde9de 0%,
-			#eaedf4 55%,
-			#e0dced 100%
-		);
-		font-family:
-			Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans", Arial,
-			sans-serif;
-		box-sizing: border-box;
-	}
+  #hero {
+    min-height: 100vh;
+    padding-top: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 24px;
+    padding-right: 24px;
+    position: relative;
+    overflow: hidden;
+    gap: 60px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
 
-	#hero-inner {
-		max-width: 800px;
-		text-align: center;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
+  .hero-bg-orbs {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+  }
 
-	#hero-heading {
-		font-size: clamp(36px, 5vw, 64px);
-		font-weight: 400;
-		line-height: 1.05;
-		letter-spacing: -0.02em;
-		color: #1a1d2e;
-		margin: 0;
-	}
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+  }
 
-	#hero-body {
-		margin: 20px 0 0;
-		font-size: 16px;
-		line-height: 1.6;
-		color: #4a4d5e;
-		max-width: 520px;
-	}
+  .orb-1 {
+    width: 600px;
+    height: 600px;
+    background: var(--yellow);
+    top: -200px;
+    left: -200px;
+    animation: float 8s ease-in-out infinite;
+  }
 
-	#hero-cta {
-		display: inline-block;
-		margin-top: 36px;
-		border-radius: 24px;
-		padding: 13px 28px;
-		font-size: 14px;
-		font-weight: 500;
-		width: fit-content;
-		background: #1a1d2e;
-		color: #fff;
-		text-decoration: none;
-	}
+  .orb-2 {
+    width: 400px;
+    height: 400px;
+    background: #4DA6FF;
+    bottom: -100px;
+    right: -100px;
+    animation: float 10s ease-in-out infinite reverse;
+  }
 
-	@media (max-width: 640px) {
-		#hero {
-			padding: 80px 20px;
-		}
-	}
+  .orb-3 {
+    width: 300px;
+    height: 300px;
+    background: #C77DFF;
+    top: 50%;
+    left: 60%;
+    animation: float 6s ease-in-out infinite 2s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-30px); }
+  }
+
+  .hero-content {
+    flex: 1;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,215,0,0.1);
+    border: 1px solid rgba(255,215,0,0.25);
+    color: var(--yellow);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    width: fit-content;
+    margin-bottom: 24px;
+  }
+
+  .hero-title {
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+
+  .hero-accent {
+    background: linear-gradient(135deg, var(--yellow), #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-body {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-body);
+    margin-bottom: 36px;
+    max-width: 460px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+
+  .hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .stat-num {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--border);
+  }
+
+  /* Hero visual */
+  .hero-visual {
+    flex: 1;
+    max-width: 480px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 480px;
+  }
+
+  .hero-pokeball {
+    width: 320px;
+    height: 320px;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 80px rgba(255,215,0,0.2);
+    animation: slowSpin 20s linear infinite;
+  }
+
+  @keyframes slowSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .pokeball-top {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 50%;
+    background: #CC0000;
+  }
+
+  .pokeball-bottom {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 50%;
+    background: #EEEEEE;
+  }
+
+  .pokeball-middle {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    height: 24px;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .pokeball-center {
+    width: 60px;
+    height: 60px;
+    background: white;
+    border-radius: 50%;
+    border: 8px solid #111;
+    box-shadow: inset 0 0 0 8px #ccc;
+    position: relative;
+    z-index: 3;
+  }
+
+  .floating-cards {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .fc {
+    position: absolute;
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,215,0,0.2);
+    border-radius: 14px;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    width: 110px;
+  }
+
+  .fc img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+  }
+
+  .fc-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .fc-price {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--yellow);
+  }
+
+  .fc-1 {
+    top: 10%;
+    right: 0;
+    animation: floatCard 5s ease-in-out infinite;
+  }
+
+  .fc-2 {
+    bottom: 20%;
+    right: 5%;
+    animation: floatCard 7s ease-in-out infinite 1.5s;
+  }
+
+  .fc-3 {
+    top: 35%;
+    left: -10px;
+    animation: floatCard 6s ease-in-out infinite 0.8s;
+  }
+
+  @keyframes floatCard {
+    0%, 100% { transform: translateY(0px) rotate(-2deg); }
+    50% { transform: translateY(-12px) rotate(2deg); }
+  }
+
+  @media (max-width: 900px) {
+    #hero {
+      flex-direction: column;
+      text-align: center;
+      padding-top: 100px;
+      padding-bottom: 60px;
+      gap: 40px;
+      min-height: auto;
+    }
+
+    .hero-content { align-items: center; max-width: 100%; }
+    .hero-title { font-size: clamp(2.2rem, 8vw, 3.5rem); }
+    .hero-body { text-align: center; }
+    .hero-ctas { justify-content: center; }
+    .hero-stats { justify-content: center; }
+    .hero-visual { height: 300px; width: 100%; }
+    .hero-pokeball { width: 220px; height: 220px; }
+    .fc { display: none; }
+    .fc-1, .fc-2 { display: flex; }
+    .fc-1 { top: 0; right: 20px; }
+    .fc-2 { bottom: 0; left: 20px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-visual { display: none; }
+  }
 </style>

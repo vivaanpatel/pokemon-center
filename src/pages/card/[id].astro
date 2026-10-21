@@ -1,0 +1,476 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CardItem from '../../components/CardItem.astro';
+import { cards, typeColors, rarityColors } from '../../data/cards';
+
+const { id } = Astro.params;
+const card = cards.find(c => c.id === id);
+
+if (!card) {
+  return Astro.redirect('/shop');
+}
+
+const typeColor = typeColors[card.type] || '#8892A4';
+const rarityColor = rarityColors[card.rarity] || '#6C757D';
+const discount = card.originalPrice ? Math.round((1 - card.price / card.originalPrice) * 100) : 0;
+const related = cards.filter(c => c.type === card.type && c.id !== card.id).slice(0, 4);
+---
+
+<Layout title={`${card.name} — PokéCard Market`} description={`Buy ${card.name} from ${card.set}. ${card.rarity}, ${card.condition} condition. $${card.price.toFixed(2)}.`}>
+  <div class="detail-page">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span>›</span>
+        <a href="/shop">Shop</a>
+        <span>›</span>
+        <span>{card.name}</span>
+      </nav>
+
+      <div class="detail-layout">
+        <!-- Card Image -->
+        <div class="detail-img-section">
+          <div class="detail-img-wrap" style={`background: radial-gradient(circle at center, ${typeColor}20, transparent 70%)`}>
+            <img
+              src={card.image}
+              alt={`${card.name} Pokémon card`}
+              class="detail-img"
+              id="detail-card-img"
+            />
+            <div class="img-badges">
+              <span class="badge" style={`background: ${rarityColor}22; color: ${rarityColor}; border: 1px solid ${rarityColor}44`}>
+                {card.rarity}
+              </span>
+              {discount > 0 && (
+                <span class="badge" style="background: rgba(255,107,107,0.2); color: #FF6B6B; border: 1px solid rgba(255,107,107,0.3)">
+                  -{discount}% OFF
+                </span>
+              )}
+            </div>
+          </div>
+          <!-- Card preview -->
+          <div class="card-specs">
+            <div class="spec-row">
+              <span class="spec-label">Set</span>
+              <span class="spec-val">{card.set}</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Number</span>
+              <span class="spec-val">{card.number}</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Type</span>
+              <span class="spec-val type-pill" style={`background: ${typeColor}22; color: ${typeColor}`}>{card.type}</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">HP</span>
+              <span class="spec-val">{card.hp} HP</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Attack</span>
+              <span class="spec-val">{card.attack} ({card.attackDamage} DMG)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Details -->
+        <div class="detail-info">
+          <div class="detail-tag" style={`background: ${typeColor}15; border-color: ${typeColor}30; color: ${typeColor}`}>
+            {card.type} Type
+          </div>
+
+          <h1 class="detail-name">{card.name}</h1>
+          <div class="detail-meta">{card.set} • Card #{card.number}</div>
+
+          <p class="detail-desc">{card.description}</p>
+
+          <!-- Condition & Rarity -->
+          <div class="detail-pills">
+            <div class="pill">
+              <span class="pill-label">Rarity</span>
+              <span class="pill-val" style={`color: ${rarityColor}`}>{card.rarity}</span>
+            </div>
+            <div class="pill">
+              <span class="pill-label">Condition</span>
+              <span class="pill-val">{card.condition}</span>
+            </div>
+            <div class="pill">
+              <span class="pill-label">Stock</span>
+              <span class="pill-val" style={card.stock <= 2 ? 'color: #FFA500' : ''}>{card.stock} left</span>
+            </div>
+          </div>
+
+          <!-- Price -->
+          <div class="detail-price-section">
+            <div class="detail-price">${card.price.toFixed(2)}</div>
+            {card.originalPrice && (
+              <div class="detail-original-price">${card.originalPrice.toFixed(2)}</div>
+            )}
+          </div>
+
+          <!-- Quantity & Add to Cart -->
+          <div class="detail-buy">
+            <div class="qty-wrap">
+              <button class="qty-btn" id="qty-minus" aria-label="Decrease quantity">−</button>
+              <span class="qty-val" id="qty-val">1</span>
+              <button class="qty-btn" id="qty-plus" aria-label="Increase quantity">+</button>
+            </div>
+            <button class="btn btn-primary detail-cart-btn" id="detail-add-cart" data-card-id={card.id}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              Add to Cart
+            </button>
+          </div>
+
+          <a href="/cart" class="view-cart-link">View Cart →</a>
+
+          <!-- Trust badges -->
+          <div class="trust-badges">
+            <div class="trust-item">
+              <span>🔍</span>
+              <span>Authenticated</span>
+            </div>
+            <div class="trust-item">
+              <span>📦</span>
+              <span>Secure Shipping</span>
+            </div>
+            <div class="trust-item">
+              <span>↩️</span>
+              <span>30-Day Returns</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related cards -->
+      {related.length > 0 && (
+        <div class="related-section">
+          <h2 class="section-title">Related {card.type} Cards</h2>
+          <p class="section-subtitle">More cards of the same type</p>
+          <div class="cards-grid">
+            {related.map(c => <CardItem card={c} />)}
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</Layout>
+
+<script>
+  let qty = 1;
+  const qtyVal = document.getElementById('qty-val')!;
+  const qtyMinus = document.getElementById('qty-minus')!;
+  const qtyPlus = document.getElementById('qty-plus')!;
+  const addCartBtn = document.getElementById('detail-add-cart')!;
+
+  qtyMinus.addEventListener('click', () => {
+    if (qty > 1) { qty--; qtyVal.textContent = String(qty); }
+  });
+  qtyPlus.addEventListener('click', () => {
+    qty++;
+    qtyVal.textContent = String(qty);
+  });
+
+  addCartBtn.addEventListener('click', () => {
+    const cardId = addCartBtn.dataset.cardId!;
+    const cart = JSON.parse(localStorage.getItem('pokemon-cart') || '[]');
+    const idx = cart.findIndex((i: {id:string}) => i.id === cardId);
+    if (idx >= 0) cart[idx].qty += qty;
+    else cart.push({ id: cardId, qty });
+    localStorage.setItem('pokemon-cart', JSON.stringify(cart));
+    window.dispatchEvent(new Event('cart-updated'));
+
+    // Button feedback
+    addCartBtn.textContent = '✓ Added!';
+    addCartBtn.style.background = '#22c55e';
+    setTimeout(() => {
+      addCartBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Add to Cart`;
+      addCartBtn.style.background = '';
+    }, 2000);
+  });
+
+  // Also register global
+  function addToCart(cardId: string) {
+    const cart = JSON.parse(localStorage.getItem('pokemon-cart') || '[]');
+    const idx = cart.findIndex((i: {id:string}) => i.id === cardId);
+    if (idx >= 0) cart[idx].qty += 1;
+    else cart.push({ id: cardId, qty: 1 });
+    localStorage.setItem('pokemon-cart', JSON.stringify(cart));
+    window.dispatchEvent(new Event('cart-updated'));
+  }
+  (window as any).addToCart = addToCart;
+</script>
+
+<style>
+  .detail-page { padding-top: 90px; padding-bottom: 80px; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb a { transition: color var(--transition); }
+  .breadcrumb a:hover { color: var(--yellow); }
+  .breadcrumb span:not(.breadcrumb a ~ span) { color: var(--white); }
+
+  .detail-layout {
+    display: grid;
+    grid-template-columns: 440px 1fr;
+    gap: 56px;
+    margin-bottom: 80px;
+    align-items: start;
+  }
+
+  /* Image section */
+  .detail-img-section { display: flex; flex-direction: column; gap: 20px; }
+
+  .detail-img-wrap {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 360px;
+    backdrop-filter: blur(12px);
+  }
+
+  .detail-img {
+    width: 260px;
+    height: 260px;
+    object-fit: contain;
+    filter: drop-shadow(0 16px 40px rgba(0,0,0,0.5));
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .detail-img:hover { transform: scale(1.08) translateY(-8px); }
+
+  .img-badges {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .card-specs {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    backdrop-filter: blur(12px);
+  }
+
+  .spec-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .spec-row:last-child { border-bottom: none; }
+
+  .spec-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .spec-val {
+    font-size: 0.875rem;
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .type-pill {
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+  }
+
+  /* Info section */
+  .detail-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 14px;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border: 1px solid;
+    margin-bottom: 16px;
+  }
+
+  .detail-name {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    margin-bottom: 8px;
+  }
+
+  .detail-meta {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  .detail-desc {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-body);
+    margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .detail-pills {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+
+  .pill {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 100px;
+  }
+
+  .pill-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+
+  .pill-val {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .detail-price-section {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .detail-price {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--yellow);
+    letter-spacing: -0.03em;
+  }
+
+  .detail-original-price {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    text-decoration: line-through;
+  }
+
+  .detail-buy {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .qty-wrap {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .qty-btn {
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: background var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .qty-btn:hover { background: rgba(255,255,255,0.1); }
+
+  .qty-val {
+    min-width: 32px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .detail-cart-btn {
+    flex: 1;
+    max-width: 220px;
+    height: 44px;
+    padding: 0 24px;
+    font-size: 0.95rem;
+    transition: all var(--transition), background 0.2s;
+  }
+
+  .view-cart-link {
+    display: inline-block;
+    font-size: 0.875rem;
+    color: var(--yellow);
+    font-weight: 600;
+    margin-bottom: 28px;
+    transition: opacity var(--transition);
+  }
+
+  .view-cart-link:hover { opacity: 0.8; }
+
+  .trust-badges {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .related-section { padding-top: 60px; border-top: 1px solid var(--border); }
+  .related-section .section-title { margin-bottom: 8px; }
+  .related-section .section-subtitle { margin-bottom: 28px; }
+
+  @media (max-width: 900px) {
+    .detail-layout { grid-template-columns: 1fr; gap: 36px; }
+    .detail-img-wrap { min-height: 280px; }
+    .detail-img { width: 200px; height: 200px; }
+    .detail-buy { flex-wrap: wrap; }
+    .detail-cart-btn { max-width: 100%; flex: auto; }
+  }
+</style>

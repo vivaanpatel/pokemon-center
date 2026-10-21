@@ -1,8 +1,52 @@
 ---
-import Hero from '../components/Hero.astro';
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import HomeContent from '../components/HomeContent.astro';
 ---
 
-<Layout>
-	<Hero />
+<Layout title="PokéCard Market — Buy & Sell Pokémon Trading Cards" description="Discover rare and vintage Pokémon trading cards. Shop Charizard, Pikachu, Mewtwo and more with authentic grading and secure shipping.">
+  <Hero />
+  <HomeContent />
 </Layout>
+
+<script>
+  // Global cart utility (available on all pages via this script)
+  function addToCart(cardId: string) {
+    const cart = JSON.parse(localStorage.getItem('pokemon-cart') || '[]');
+    const existingIndex = cart.findIndex((item: { id: string }) => item.id === cardId);
+    if (existingIndex >= 0) {
+      cart[existingIndex].qty += 1;
+    } else {
+      cart.push({ id: cardId, qty: 1 });
+    }
+    localStorage.setItem('pokemon-cart', JSON.stringify(cart));
+    window.dispatchEvent(new Event('cart-updated'));
+    showCartToast(cardId);
+  }
+
+  function showCartToast(cardId: string) {
+    const existing = document.getElementById('cart-toast');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.id = 'cart-toast';
+    toast.innerHTML = `<span>✓</span> Added to cart!`;
+    toast.style.cssText = `
+      position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+      background: #1a2540; border: 1px solid rgba(255,215,0,0.4);
+      color: white; padding: 14px 20px; border-radius: 12px;
+      font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 600;
+      display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      animation: slideInToast 0.3s ease forwards;
+    `;
+    const style = document.createElement('style');
+    style.textContent = `@keyframes slideInToast { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }`;
+    document.head.appendChild(style);
+    toast.querySelector('span')!.style.cssText = 'color: #FFD700; font-size: 1rem;';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2500);
+  }
+
+  // Make global
+  (window as unknown as Window & { addToCart: typeof addToCart }).addToCart = addToCart;
+</script>
