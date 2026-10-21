@@ -1,24 +1,33 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import CardItem from '../../components/CardItem.astro';
-import { cards } from '../../data/cards';
+import Layout from "../../layouts/Layout.astro";
+import CardItem from "../../components/CardItem.astro";
+import { cards } from "../../data/cards";
 
-const filter = Astro.url.searchParams.get('filter') || 'all';
+const filter = Astro.url.searchParams.get("filter") || "all";
 
 let filteredCards = cards;
-if (filter === 'featured') filteredCards = cards.filter(c => c.featured);
-if (filter === 'popular') filteredCards = cards.filter(c => c.popular);
+if (filter === "featured") filteredCards = cards.filter((c) => c.featured);
+if (filter === "popular") filteredCards = cards.filter((c) => c.popular);
 
-const allTypes = [...new Set(cards.map(c => c.type))].sort();
-const allRarities = [...new Set(cards.map(c => c.rarity))];
+const allTypes = [...new Set(cards.map((c) => c.type))].sort();
+const allRarities = [...new Set(cards.map((c) => c.rarity))];
 ---
 
-<Layout title="Shop Pokémon Cards — PokéCard Market" description="Browse our full collection of Pokémon trading cards. Filter by type, rarity, price and condition.">
+<Layout
+  title="Shop Pokémon Cards — PokéCard Market"
+  description="Browse our full collection of Pokémon trading cards. Filter by type, rarity, price and condition."
+>
   <div class="shop-page">
     <div class="shop-hero">
       <div class="container">
         <h1 class="shop-title">
-          {filter === 'featured' ? '⭐ Featured Cards' : filter === 'popular' ? '🔥 Popular Cards' : '🃏 All Cards'}
+          {
+            filter === "featured"
+              ? "⭐ Featured Cards"
+              : filter === "popular"
+                ? "🔥 Popular Cards"
+                : "🃏 All Cards"
+          }
         </h1>
         <p class="shop-subtitle">
           {filteredCards.length} cards available
@@ -38,8 +47,19 @@ const allRarities = [...new Set(cards.map(c => c.rarity))];
         <div class="filter-group">
           <label class="filter-label" for="search-input">Search</label>
           <div class="search-wrap">
-            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            <svg
+              class="search-icon"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"
+              ></path>
             </svg>
             <input
               type="text"
@@ -55,9 +75,21 @@ const allRarities = [...new Set(cards.map(c => c.rarity))];
         <div class="filter-group">
           <label class="filter-label">Price Range</label>
           <div class="price-inputs">
-            <input type="number" id="min-price" placeholder="Min $" class="price-input" min="0" />
+            <input
+              type="number"
+              id="min-price"
+              placeholder="Min $"
+              class="price-input"
+              min="0"
+            />
             <span>—</span>
-            <input type="number" id="max-price" placeholder="Max $" class="price-input" min="0" />
+            <input
+              type="number"
+              id="max-price"
+              placeholder="Max $"
+              class="price-input"
+              min="0"
+            />
           </div>
         </div>
 
@@ -65,12 +97,14 @@ const allRarities = [...new Set(cards.map(c => c.rarity))];
         <div class="filter-group">
           <label class="filter-label">Type</label>
           <div class="filter-options" id="type-filters">
-            {allTypes.map(type => (
-              <label class="filter-check">
-                <input type="checkbox" class="type-check" value={type} />
-                <span class="check-label">{type}</span>
-              </label>
-            ))}
+            {
+              allTypes.map((type) => (
+                <label class="filter-check">
+                  <input type="checkbox" class="type-check" value={type} />
+                  <span class="check-label">{type}</span>
+                </label>
+              ))
+            }
           </div>
         </div>
 
@@ -78,12 +112,14 @@ const allRarities = [...new Set(cards.map(c => c.rarity))];
         <div class="filter-group">
           <label class="filter-label">Rarity</label>
           <div class="filter-options" id="rarity-filters">
-            {allRarities.map(rarity => (
-              <label class="filter-check">
-                <input type="checkbox" class="rarity-check" value={rarity} />
-                <span class="check-label">{rarity}</span>
-              </label>
-            ))}
+            {
+              allRarities.map((rarity) => (
+                <label class="filter-check">
+                  <input type="checkbox" class="rarity-check" value={rarity} />
+                  <span class="check-label">{rarity}</span>
+                </label>
+              ))
+            }
           </div>
         </div>
 
@@ -103,35 +139,54 @@ const allRarities = [...new Set(cards.map(c => c.rarity))];
       <!-- Cards Area -->
       <div class="shop-main">
         <div class="shop-topbar">
-          <span class="results-count" id="results-count">{filteredCards.length} results</span>
+          <span class="results-count" id="results-count"
+            >{filteredCards.length} results</span
+          >
           <button class="filter-toggle-btn" id="filter-toggle">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="4" y1="6" x2="20" y2="6"></line><line
+                x1="8"
+                y1="12"
+                x2="16"
+                y2="12"></line><line x1="11" y1="18" x2="13" y2="18"></line>
             </svg>
             Filters
           </button>
         </div>
 
         <div class="cards-grid" id="cards-grid">
-          {filteredCards.map(card => (
-            <div
-              class="card-wrapper"
-              data-id={card.id}
-              data-name={card.name.toLowerCase()}
-              data-price={card.price}
-              data-type={card.type}
-              data-rarity={card.rarity}
-            >
-              <CardItem card={card} />
-            </div>
-          ))}
+          {
+            filteredCards.map((card) => (
+              <div
+                class="card-wrapper"
+                data-id={card.id}
+                data-name={card.name.toLowerCase()}
+                data-price={card.price}
+                data-type={card.type}
+                data-rarity={card.rarity}
+              >
+                <CardItem card={card} />
+              </div>
+            ))
+          }
         </div>
 
         <div class="empty-state" id="empty-state" style="display:none">
           <div class="empty-icon">🔍</div>
           <h3>No cards found</h3>
           <p>Try adjusting your search or filters</p>
-          <button class="btn btn-outline" id="reset-btn" style="margin-top:16px">Reset Filters</button>
+          <button class="btn btn-outline" id="reset-btn" style="margin-top:16px"
+            >Reset Filters</button
+          >
         </div>
       </div>
     </div>
@@ -141,95 +196,128 @@ const allRarities = [...new Set(cards.map(c => c.rarity))];
 <script>
   // --- Cart ---
   function addToCart(cardId: string) {
-    const cart = JSON.parse(localStorage.getItem('pokemon-cart') || '[]');
-    const idx = cart.findIndex((i: {id:string}) => i.id === cardId);
+    const cart = JSON.parse(localStorage.getItem("pokemon-cart") || "[]");
+    const idx = cart.findIndex((i: { id: string }) => i.id === cardId);
     if (idx >= 0) cart[idx].qty += 1;
     else cart.push({ id: cardId, qty: 1 });
-    localStorage.setItem('pokemon-cart', JSON.stringify(cart));
-    window.dispatchEvent(new Event('cart-updated'));
-    const toast = document.createElement('div');
-    toast.textContent = '✓ Added to cart!';
-    toast.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;background:#1a2540;border:1px solid rgba(255,215,0,0.4);color:white;padding:14px 20px;border-radius:12px;font-family:Outfit,sans-serif;font-size:0.9rem;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,0.4);';
+    localStorage.setItem("pokemon-cart", JSON.stringify(cart));
+    window.dispatchEvent(new Event("cart-updated"));
+    const toast = document.createElement("div");
+    toast.textContent = "✓ Added to cart!";
+    toast.style.cssText =
+      "position:fixed;bottom:24px;right:24px;z-index:9999;background:#1a2540;border:1px solid rgba(255,215,0,0.4);color:white;padding:14px 20px;border-radius:12px;font-family:Outfit,sans-serif;font-size:0.9rem;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,0.4);";
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 2000);
   }
   (window as any).addToCart = addToCart;
 
   // --- Filtering ---
-  const searchInput = document.getElementById('search-input') as HTMLInputElement;
-  const minPrice = document.getElementById('min-price') as HTMLInputElement;
-  const maxPrice = document.getElementById('max-price') as HTMLInputElement;
-  const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
-  const cardsGrid = document.getElementById('cards-grid')!;
-  const emptyState = document.getElementById('empty-state')!;
-  const resultsCount = document.getElementById('results-count')!;
-  const clearBtn = document.getElementById('clear-filters')!;
-  const resetBtn = document.getElementById('reset-btn')!;
-  const filterToggle = document.getElementById('filter-toggle')!;
-  const sidebar = document.getElementById('shop-sidebar')!;
+  const searchInput = document.getElementById(
+    "search-input",
+  ) as HTMLInputElement;
+  const minPrice = document.getElementById("min-price") as HTMLInputElement;
+  const maxPrice = document.getElementById("max-price") as HTMLInputElement;
+  const sortSelect = document.getElementById(
+    "sort-select",
+  ) as HTMLSelectElement;
+  const cardsGrid = document.getElementById("cards-grid")!;
+  const emptyState = document.getElementById("empty-state")!;
+  const resultsCount = document.getElementById("results-count")!;
+  const clearBtn = document.getElementById("clear-filters")!;
+  const resetBtn = document.getElementById("reset-btn")!;
+  const filterToggle = document.getElementById("filter-toggle")!;
+  const sidebar = document.getElementById("shop-sidebar")!;
 
-  filterToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+  filterToggle.addEventListener("click", () =>
+    sidebar.classList.toggle("open"),
+  );
 
   function applyFilters() {
     const searchVal = searchInput.value.toLowerCase().trim();
     const min = parseFloat(minPrice.value) || 0;
     const max = parseFloat(maxPrice.value) || Infinity;
-    const checkedTypes = [...document.querySelectorAll('.type-check:checked')].map(el => (el as HTMLInputElement).value);
-    const checkedRarities = [...document.querySelectorAll('.rarity-check:checked')].map(el => (el as HTMLInputElement).value);
+    const checkedTypes = [
+      ...document.querySelectorAll(".type-check:checked"),
+    ].map((el) => (el as HTMLInputElement).value);
+    const checkedRarities = [
+      ...document.querySelectorAll(".rarity-check:checked"),
+    ].map((el) => (el as HTMLInputElement).value);
     const sort = sortSelect.value;
 
-    let wrappers = [...document.querySelectorAll('.card-wrapper')] as HTMLElement[];
+    let wrappers = [
+      ...document.querySelectorAll(".card-wrapper"),
+    ] as HTMLElement[];
 
-    wrappers.forEach(w => {
-      const name = w.dataset.name || '';
-      const price = parseFloat(w.dataset.price || '0');
-      const type = w.dataset.type || '';
-      const rarity = w.dataset.rarity || '';
+    wrappers.forEach((w) => {
+      const name = w.dataset.name || "";
+      const price = parseFloat(w.dataset.price || "0");
+      const type = w.dataset.type || "";
+      const rarity = w.dataset.rarity || "";
 
       const matchSearch = !searchVal || name.includes(searchVal);
       const matchPrice = price >= min && price <= max;
-      const matchType = checkedTypes.length === 0 || checkedTypes.includes(type);
-      const matchRarity = checkedRarities.length === 0 || checkedRarities.includes(rarity);
+      const matchType =
+        checkedTypes.length === 0 || checkedTypes.includes(type);
+      const matchRarity =
+        checkedRarities.length === 0 || checkedRarities.includes(rarity);
 
-      w.style.display = (matchSearch && matchPrice && matchType && matchRarity) ? '' : 'none';
+      w.style.display =
+        matchSearch && matchPrice && matchType && matchRarity ? "" : "none";
     });
 
     // Sort
-    const visible = wrappers.filter(w => w.style.display !== 'none');
+    const visible = wrappers.filter((w) => w.style.display !== "none");
     visible.sort((a, b) => {
-      if (sort === 'price-asc') return parseFloat(a.dataset.price||'0') - parseFloat(b.dataset.price||'0');
-      if (sort === 'price-desc') return parseFloat(b.dataset.price||'0') - parseFloat(a.dataset.price||'0');
-      if (sort === 'name-asc') return (a.dataset.name||'').localeCompare(b.dataset.name||'');
-      if (sort === 'name-desc') return (b.dataset.name||'').localeCompare(a.dataset.name||'');
+      if (sort === "price-asc")
+        return (
+          parseFloat(a.dataset.price || "0") -
+          parseFloat(b.dataset.price || "0")
+        );
+      if (sort === "price-desc")
+        return (
+          parseFloat(b.dataset.price || "0") -
+          parseFloat(a.dataset.price || "0")
+        );
+      if (sort === "name-asc")
+        return (a.dataset.name || "").localeCompare(b.dataset.name || "");
+      if (sort === "name-desc")
+        return (b.dataset.name || "").localeCompare(a.dataset.name || "");
       return 0;
     });
-    visible.forEach(w => cardsGrid.appendChild(w));
+    visible.forEach((w) => cardsGrid.appendChild(w));
 
-    resultsCount.textContent = `${visible.length} result${visible.length !== 1 ? 's' : ''}`;
-    emptyState.style.display = visible.length === 0 ? 'flex' : 'none';
-    cardsGrid.style.display = visible.length === 0 ? 'none' : '';
+    resultsCount.textContent = `${visible.length} result${visible.length !== 1 ? "s" : ""}`;
+    emptyState.style.display = visible.length === 0 ? "flex" : "none";
+    cardsGrid.style.display = visible.length === 0 ? "none" : "";
   }
 
   function clearFilters() {
-    searchInput.value = '';
-    minPrice.value = '';
-    maxPrice.value = '';
-    sortSelect.value = 'default';
-    document.querySelectorAll('.type-check, .rarity-check').forEach(el => (el as HTMLInputElement).checked = false);
+    searchInput.value = "";
+    minPrice.value = "";
+    maxPrice.value = "";
+    sortSelect.value = "default";
+    document
+      .querySelectorAll(".type-check, .rarity-check")
+      .forEach((el) => ((el as HTMLInputElement).checked = false));
     applyFilters();
   }
 
-  searchInput.addEventListener('input', applyFilters);
-  minPrice.addEventListener('input', applyFilters);
-  maxPrice.addEventListener('input', applyFilters);
-  sortSelect.addEventListener('change', applyFilters);
-  document.querySelectorAll('.type-check, .rarity-check').forEach(el => el.addEventListener('change', applyFilters));
-  clearBtn.addEventListener('click', clearFilters);
-  resetBtn.addEventListener('click', clearFilters);
+  searchInput.addEventListener("input", applyFilters);
+  minPrice.addEventListener("input", applyFilters);
+  maxPrice.addEventListener("input", applyFilters);
+  sortSelect.addEventListener("change", applyFilters);
+  document
+    .querySelectorAll(".type-check, .rarity-check")
+    .forEach((el) => el.addEventListener("change", applyFilters));
+  clearBtn.addEventListener("click", clearFilters);
+  resetBtn.addEventListener("click", clearFilters);
 </script>
 
 <style>
-  .shop-page { padding-top: 70px; min-height: 100vh; }
+  .shop-page {
+    padding-top: 70px;
+    min-height: 100vh;
+  }
 
   .shop-hero {
     background: linear-gradient(to right, var(--navy-light), var(--navy));
@@ -244,7 +332,10 @@ const allRarities = [...new Set(cards.map(c => c.rarity))];
     margin-bottom: 8px;
   }
 
-  .shop-subtitle { color: var(--text-muted); font-size: 0.95rem; }
+  .shop-subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
 
   .shop-layout {
     display: grid;
@@ -286,11 +377,13 @@ const allRarities = [...new Set(cards.map(c => c.rarity))];
     font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
-    font-family: 'Outfit', sans-serif;
+    font-family: "Outfit", sans-serif;
     padding: 0;
   }
 
-  .clear-btn:hover { opacity: 0.8; }
+  .clear-btn:hover {
+    opacity: 0.8;
+  }
 
   .filter-group {
     margin-bottom: 24px;
@@ -321,18 +414,23 @@ const allRarities = [...new Set(cards.map(c => c.rarity))];
 
   .search-input {
     width: 100%;
-    background: rgba(255,255,255,0.06);
+    background: rgba(255, 255, 255, 0.06);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 10px 12px 10px 36px;
     color: var(--white);
-    font-family: 'Outfit', sans-serif;
+    font-family: "Outfit", sans-serif;
     font-size: 0.875rem;
     transition: border-color var(--transition);
   }
 
-  .search-input::placeholder { color: var(--text-muted); }
-  .search-input:focus { outline: none; border-color: rgba(255,215,0,0.5); }
+  .search-input::placeholder {
+    color: var(--text-muted);
+  }
+  .search-input:focus {
+    outline: none;
+    border-color: rgba(255, 215, 0, 0.5);
+  }
 
   .price-inputs {
     display: flex;
@@ -342,21 +440,30 @@ const allRarities = [...new Set(cards.map(c => c.rarity))];
 
   .price-input {
     flex: 1;
-    background: rgba(255,255,255,0.06);
+    background: rgba(255, 255, 255, 0.06);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 10px 10px;
     color: var(--white);
-    font-family: 'Outfit', sans-serif;
+    font-family: "Outfit", sans-serif;
     font-size: 0.875rem;
     width: 100%;
     transition: border-color var(--transition);
   }
 
-  .price-input:focus { outline: none; border-color: rgba(255,215,0,0.5); }
-  .price-input::placeholder { color: var(--text-muted); }
+  .price-input:focus {
+    outline: none;
+    border-color: rgba(255, 215, 0, 0.5);
+  }
+  .price-input::placeholder {
+    color: var(--text-muted);
+  }
 
-  .price-inputs span { color: var(--text-muted); font-size: 0.875rem; flex-shrink: 0; }
+  .price-inputs span {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    flex-shrink: 0;
+  }
 
   .filter-options {
     display: flex;
@@ -385,16 +492,18 @@ const allRarities = [...new Set(cards.map(c => c.rarity))];
     transition: color var(--transition);
   }
 
-  .filter-check:hover .check-label { color: var(--white); }
+  .filter-check:hover .check-label {
+    color: var(--white);
+  }
 
   .sort-select {
     width: 100%;
-    background: rgba(255,255,255,0.06);
+    background: rgba(255, 255, 255, 0.06);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 10px 12px;
     color: var(--white);
-    font-family: 'Outfit', sans-serif;
+    font-family: "Outfit", sans-serif;
     font-size: 0.875rem;
     cursor: pointer;
     transition: border-color var(--transition);
@@ -405,8 +514,13 @@ const allRarities = [...new Set(cards.map(c => c.rarity))];
     padding-right: 32px;
   }
 
-  .sort-select:focus { outline: none; border-color: rgba(255,215,0,0.5); }
-  .sort-select option { background: var(--navy-light); }
+  .sort-select:focus {
+    outline: none;
+    border-color: rgba(255, 215, 0, 0.5);
+  }
+  .sort-select option {
+    background: var(--navy-light);
+  }
 
   /* Shop main */
   .shop-topbar {
@@ -416,25 +530,31 @@ const allRarities = [...new Set(cards.map(c => c.rarity))];
     margin-bottom: 24px;
   }
 
-  .results-count { font-size: 0.9rem; color: var(--text-muted); }
+  .results-count {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
 
   .filter-toggle-btn {
     display: none;
     align-items: center;
     gap: 6px;
-    background: rgba(255,255,255,0.06);
+    background: rgba(255, 255, 255, 0.06);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 8px 14px;
     color: var(--white);
-    font-family: 'Outfit', sans-serif;
+    font-family: "Outfit", sans-serif;
     font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
     transition: all var(--transition);
   }
 
-  .filter-toggle-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+  .filter-toggle-btn:hover {
+    border-color: var(--yellow);
+    color: var(--yellow);
+  }
 
   /* Empty state */
   .empty-state {
@@ -445,15 +565,30 @@ const allRarities = [...new Set(cards.map(c => c.rarity))];
     padding: 80px 24px;
   }
 
-  .empty-icon { font-size: 4rem; margin-bottom: 16px; }
-  .empty-state h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
-  .empty-state p { color: var(--text-muted); }
+  .empty-icon {
+    font-size: 4rem;
+    margin-bottom: 16px;
+  }
+  .empty-state h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .empty-state p {
+    color: var(--text-muted);
+  }
 
-  .card-wrapper { display: contents; }
+  .card-wrapper {
+    display: contents;
+  }
 
   @media (max-width: 900px) {
-    .shop-layout { grid-template-columns: 1fr; }
-    .filter-toggle-btn { display: flex; }
+    .shop-layout {
+      grid-template-columns: 1fr;
+    }
+    .filter-toggle-btn {
+      display: flex;
+    }
     .sidebar {
       position: fixed;
       top: 0;
@@ -467,6 +602,8 @@ const allRarities = [...new Set(cards.map(c => c.rarity))];
       border-radius: 0;
       border-right: 1px solid var(--border);
     }
-    .sidebar.open { transform: translateX(0); }
+    .sidebar.open {
+      transform: translateX(0);
+    }
   }
 </style>
